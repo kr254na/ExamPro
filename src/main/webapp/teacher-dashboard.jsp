@@ -154,11 +154,14 @@
     <aside class="sidebar">
         <div class="logo">
             <div style="width:10px; height:10px; background:var(--accent); border-radius:50%; box-shadow:0 0 10px var(--accent);"></div>
-            ExamPro Admin
+            ExamPro Teacher
         </div>
         <ul class="nav-links">
             <li><a href="#" class="active">Dashboard</a></li>
             <li><a href="/manage-questions">Question Bank</a></li>
+             <li><a href="/exam/new">Create Exam</a></li>
+             <li><a href="/my-exams">My Exams</a></li>
+             <li><a href="/batch">Batches</a></li>
             <li><a href="view-results.jsp">Exam Results</a></li>
             <li><a href="manage-students.jsp">Students</a></li>
         </ul>
@@ -182,12 +185,12 @@
                 <h2>${totalQuestions}</h2>
             </div>
             <div class="stat-card">
-                <span>Active Students</span>
-                <h2>482</h2>
+                <span>Exams</span>
+                <h2>${totalExams}</h2>
             </div>
             <div class="stat-card">
-                <span>Exams Taken</span>
-                <h2>1.2k</h2>
+                <span>Batches</span>
+                <h2>${totalBatches}</h2>
             </div>
         </section>
 

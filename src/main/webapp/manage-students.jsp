@@ -159,11 +159,14 @@
     <aside class="sidebar">
         <div class="logo">
             <div style="width:10px; height:10px; background:var(--accent); border-radius:50%; box-shadow:0 0 10px var(--accent);"></div>
-            ExamPro Admin
+            ExamPro Teacher
         </div>
         <ul class="nav-links">
             <li><a href="/teacher-dashboard">Dashboard</a></li>
             <li><a href="/manage-questions">Question Bank</a></li>
+             <li><a href="/exam/new">Create Exam</a></li>
+             <li><a href="/my-exams">My Exams</a></li>
+             <li><a href="/batch">Batches</a></li>
             <li><a href="view-results.jsp">Exam Results</a></li>
             <li><a href="manage-students.jsp" class="active">Students</a></li>
         </ul>

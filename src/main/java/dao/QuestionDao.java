@@ -38,6 +38,31 @@ public class QuestionDao {
         return questions;
     }
 
+    public Question getQuestionById(int id) {
+        Question q = null;
+        String sql = "SELECT * FROM questions WHERE question_id = ?";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                q = new Question();
+                q.setId(rs.getInt("question_id"));
+                q.setQuestionText(rs.getString("question_text"));
+                q.setOptionA(rs.getString("option_a"));
+                q.setOptionB(rs.getString("option_b"));
+                q.setOptionC(rs.getString("option_c"));
+                q.setOptionD(rs.getString("option_d"));
+                q.setCorrectAnswer(rs.getString("correct_option"));
+                q.setSubjectId(rs.getInt("subject_id"));
+                q.setCreatedBy(rs.getInt("created_by"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching question: "+e.getMessage());
+        }
+        return q;
+    }
+
     public List<Question> getQuestionsByTeacher(int teacherId) {
         List<Question> list = new ArrayList<>();
         String sql = "SELECT * FROM questions WHERE created_by = ?";
@@ -103,4 +128,46 @@ public class QuestionDao {
             return false;
         }
     }
+
+    public boolean updateQuestion(Question q) {
+        String sql = "UPDATE questions SET question_text=?, option_a=?, option_b=?, " +
+                "option_c=?, option_d=?, correct_option=?, subject_id=? " +
+                "WHERE question_id=?";
+
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            SubjectDao subjectDao = new SubjectDao();
+            ps.setString(1, q.getQuestionText());
+            ps.setString(2, q.getOptionA());
+            ps.setString(3, q.getOptionB());
+            ps.setString(4, q.getOptionC());
+            ps.setString(5, q.getOptionD());
+            ps.setString(6, q.getCorrectAnswer());
+            ps.setInt(7, q.getSubjectId());
+            ps.setInt(8, q.getId());
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Error updating question : "+e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean deleteQuestion(int id) {
+        String sql = "DELETE FROM questions" +
+                " where question_id=?";
+
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Error deleting question : "+e.getMessage());
+            return false;
+        }
+    }
+
 }

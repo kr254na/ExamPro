@@ -31,22 +31,7 @@ public class ManageQuestionServlet extends HttpServlet {
         User currentTeacher = (User) session.getAttribute("user");
         QuestionDao questionDao = new QuestionDao();
         List<Question> questions = questionDao.getQuestionsByTeacher(currentTeacher.getId());
-        List<QuestionDto> questionDtos = new ArrayList<>();
-        for(Question question : questions) {
-            QuestionDto questionDto = new QuestionDto();
-            questionDto.setQuestionText(question.getQuestionText());
-            questionDto.setId(question.getId());
-            questionDto.setCorrectAnswer(question.getCorrectAnswer());
-            questionDto.setOptionA(question.getOptionA());
-            questionDto.setOptionB(question.getOptionB());
-            questionDto.setOptionC(question.getOptionC());
-            questionDto.setOptionD(question.getOptionD());
-            questionDto.setCreatedBy(question.getCreatedBy());
-            SubjectDao subjectDao = new SubjectDao();
-            questionDto.setSubjectName(subjectDao.getSubjectById(question.getSubjectId())
-                    .getSubjectName());
-            questionDtos.add(questionDto);
-        }
+        List<QuestionDto> questionDtos = Question.mapQuestionsToQuestionDtos(questions);
         session.setAttribute("questions",questionDtos);
         req.getRequestDispatcher("manage-questions.jsp").forward(req, res);
     }

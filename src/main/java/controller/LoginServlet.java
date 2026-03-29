@@ -24,12 +24,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("user", loginUser);
             session.setAttribute("role", loginUser.getRole());
-
-            if ("TEACHER".equals(loginUser.getRole())) {
-                res.sendRedirect("/teacher-dashboard");
-            } else {
-                res.sendRedirect("index.jsp");
-            }
+            res.sendRedirect("/index.jsp");
         } else {
             res.sendRedirect("login.jsp?error=1");
         }

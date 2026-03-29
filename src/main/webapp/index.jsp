@@ -145,14 +145,12 @@
                     <%-- If Teacher --%>
                     <c:when test="${sessionScope.role == 'TEACHER'}">
                         <a href="/teacher-dashboard" class="btn btn-primary">Go to Teacher Dashboard</a>
-                        <a href="add-question.jsp" class="btn btn-outline">Add New Questions</a>
                     </c:when>
 
                     <%-- If Student --%>
                     <c:otherwise>
-                        <p>Ready to test your knowledge?</p>
-                        <form action="exam" method="get">
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">Start Exam Now</button>
+                        <form action="/student/dashboard" method="get">
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Go to Student Dashboard</button>
                         </form>
                     </c:otherwise>
                 </c:choose>

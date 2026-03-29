@@ -179,11 +179,14 @@
 
         <div class="logo">
            <div style="width:10px; height:10px; background:var(--accent); border-radius:50%; box-shadow:0 0 10px var(--accent);"></div>
-           ExamPro Admin
+           ExamPro Teacher
         </div>
         <ul class="nav-links">
             <li><a href="/teacher-dashboard">Dashboard</a></li>
             <li><a href="#" class="active">Question Bank</a></li>
+             <li><a href="/exam/new">Create Exam</a></li>
+             <li><a href="/my-exams">My Exams</a></li>
+             <li><a href="/batch">Batches</a></li>
             <li><a href="view-results.jsp">Exam Results</a></li>
             <li><a href="manage-students.jsp">Students</a></li>
         </ul>
@@ -225,8 +228,8 @@
                             <td>${q.subjectName}</td>
                             <td><span class="badge">Option ${q.correctAnswer}</span></td>
                             <td class="actions">
-                                <a href="EditQuestionServlet?id=${q.id}" class="btn-icon btn-edit">Edit</a>
-                                <a href="DeleteQuestionServlet?id=${q.id}"
+                                <a href="/edit?id=${q.id}" class="btn-icon btn-edit">Edit</a>
+                                <a href="/delete?id=${q.id}"
                                    class="btn-icon btn-delete"
                                    onclick="return confirm('Are you sure you want to delete this question?')">Delete</a>
                             </td>
