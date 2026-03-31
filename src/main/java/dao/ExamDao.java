@@ -226,4 +226,52 @@ public class ExamDao {
         }
         return questions;
     }
+
+    public int getCompletedExamsCount(int studentId) {
+        String sql = "SELECT COUNT(*) FROM results WHERE student_id = ?";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, studentId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) { e.printStackTrace(); }
+        return 0;
+    }
+
+    public int getPendingExamsCount(int studentId) {
+        String sql = "SELECT COUNT(*) FROM exams e " +
+                "JOIN batch_exams be ON e.exam_id = be.exam_id " +
+                "JOIN batch_members bs ON be.batch_id = bs.batch_id " +
+                "LEFT JOIN results r ON e.exam_id = r.exam_id AND r.student_id = bs.student_id " +
+                "WHERE bs.student_id = ? AND r.result_id IS NULL";
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, studentId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) { e.printStackTrace(); }
+        return 0;
+    }
+
+    public int getPendingExamsCountByBatch(int studentId, int batchId) {
+        String sql = "SELECT COUNT(*) FROM exams e " +
+                "JOIN batch_exams be ON e.exam_id = be.exam_id " +
+                "LEFT JOIN results r ON e.exam_id = r.exam_id AND r.student_id = ? " +
+                "WHERE be.batch_id = ? AND r.result_id IS NULL";
+
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, studentId);
+            ps.setInt(2, batchId);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

@@ -13,6 +13,7 @@ public class Exam implements Serializable {
     private Timestamp createdAt;
     private List<Integer> questionIds;
     private int questionCount;
+    private boolean completed;
 
     public Exam() {}
 
@@ -40,4 +41,11 @@ public class Exam implements Serializable {
     public int getQuestionCount() { return questionCount; }
     public void setQuestionCount(int questionCount) { this.questionCount = questionCount; }
 
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
 }

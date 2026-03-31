@@ -149,6 +149,157 @@
         .btn-update:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(108,99,255,0.3); }
 
         .selection-count { color: var(--success); font-weight: 700; font-size: 0.9rem; }
+
+        /* ─── ULTRA PRO MAX RESPONSIVENESS (EDIT EXAM) ─── */
+
+        @media (max-width: 1024px) {
+            body { flex-direction: column; }
+            .sidebar {
+                width: 100%; height: auto; padding: 1rem 1.5rem;
+                flex-direction: row; align-items: center; justify-content: space-between;
+                position: sticky; top: 0; z-index: 100;
+                background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(10px);
+            }
+            .nav-links { display: none; }
+            .main-content { padding: 2rem 1.2rem; }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            /* Stack the Title, Subject, and Duration */
+            .input-row {
+                grid-template-columns: 1fr !important;
+                gap: 1.2rem;
+            }
+
+            .form-container {
+                padding: 1.5rem 1rem;
+                border-radius: 16px;
+            }
+
+            /* Make the Question List Items more like touchable cards */
+            .q-item {
+                padding: 1.2rem 0.8rem;
+                flex-wrap: wrap; /* Allows info to wrap below checkbox if needed */
+            }
+
+            .q-info h4 {
+                font-size: 0.9rem;
+                margin-right: 30px; /* Space for the tag */
+            }
+
+            /* Collapse the 2-column options preview to 1-column */
+            .q-info div[style*="display: grid"] {
+                grid-template-columns: 1fr !important;
+                gap: 5px !important;
+                margin-top: 10px;
+            }
+
+            .q-tag {
+                font-size: 0.6rem;
+                padding: 2px 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 { font-size: 1.5rem; }
+
+            /* Float the selection count for better visibility while scrolling */
+            .selection-count {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: var(--success);
+                color: #080c14;
+                padding: 8px 16px;
+                border-radius: 99px;
+                box-shadow: 0 10px 20px rgba(34, 212, 160, 0.3);
+                z-index: 1000;
+                font-size: 0.8rem;
+            }
+
+            .question-selector {
+                max-height: 350px; /* Shorter height for small phones */
+            }
+
+            input[type="checkbox"] {
+                width: 22px; /* Larger hit area for thumbs */
+                height: 22px;
+            }
+
+            .btn-update {
+                padding: 1.1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ─── TOUCH OPTIMIZATION ─── */
+        @media (pointer: coarse) {
+            .q-item {
+                -webkit-tap-highlight-color: transparent;
+            }
+            /* Hide scrollbar on mobile but keep functionality */
+            .question-selector::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        /* --- Global Styles --- */
+        .menu-toggle {
+            display: none; /* Hide on Desktop */
+        }
+
+        .mobile-only {
+            display: none; /* Hide on Desktop */
+        }
+
+        /* --- Responsive Styles (Inside @media max-width: 1024px) --- */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: block !important; /* Force show on mobile */
+                background: rgba(255,255,255,0.05);
+                border: 1px solid var(--border);
+                color: var(--accent);
+                font-size: 1.5rem;
+                padding: 0.5rem 0.8rem;
+                border-radius: 8px;
+                cursor: pointer;
+                z-index: 101;
+            }
+
+            .desktop-only-logout {
+                display: none !important; /* Hide the bottom logout on mobile */
+            }
+
+            .mobile-only {
+                display: block; /* Show logout inside the menu */
+                border-top: 1px solid var(--border);
+                margin-top: 1rem;
+            }
+
+            .nav-links {
+                display: none; /* Hidden by default */
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--panel);
+                flex-direction: column;
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border);
+                z-index: 100;
+            }
+
+            .nav-links.show {
+                display: flex !important; /* Show when toggled */
+            }
+        }
     </style>
 </head>
 <body>
@@ -158,14 +309,15 @@
             <div style="width:10px; height:10px; background:var(--accent); border-radius:50%; box-shadow:0 0 10px var(--accent);"></div>
             ExamPro Teacher
         </div>
-        <ul class="nav-links">
+        <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <ul class="nav-links" id="mobileMenu">
             <li><a href="/teacher-dashboard">Dashboard</a></li>
             <li><a href="/manage-questions">Question Bank</a></li>
             <li><a href="/exam/new">Create Exam</a></li>
             <li><a href="/my-exams" class="active">My Exams</a></li>
             <li><a href="/batch">Batches</a></li>
-            <li><a href="/view-results.jsp">Exam Results</a></li>
-            <li><a href="/manage-students.jsp">Students</a></li>
+             <li><a href="/assignments" >Exam Assignments</a></li>
+            <li><a href="/view-results">Exam Results</a></li>
         </ul>
         <a href="LogoutServlet" style="color:var(--danger); text-decoration:none; font-weight:700; margin-top:auto;">Sign Out →</a>
     </aside>
@@ -247,6 +399,11 @@
 
         checkboxes.forEach(cb => cb.addEventListener('change', updateCounter));
         window.onload = updateCounter;
+
+        function toggleMobileMenu() {
+                    const menu = document.getElementById("mobileMenu");
+                    menu.classList.toggle("show");
+                }
     </script>
 
 </body>

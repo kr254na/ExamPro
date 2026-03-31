@@ -11,6 +11,7 @@ public class Batch implements Serializable {
     private Timestamp createdAt;
     private int studentCount;
     private String teacherName;
+    private int pendingCount;
 
     public Batch() {}
 
@@ -34,4 +35,12 @@ public class Batch implements Serializable {
 
     public String getTeacherName() { return teacherName; }
     public void setTeacherName(String teacherName) { this.teacherName = teacherName; }
+
+    public int getPendingCount() {
+        return pendingCount;
+    }
+
+    public void setPendingCount(int pendingCount) {
+        this.pendingCount = pendingCount;
+    }
 }

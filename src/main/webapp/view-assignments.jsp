@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batch Students | ExamPro</title>
+    <title>Active Assignments | ExamPro</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -49,12 +49,9 @@
 
         .logo {
             font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: var(--accent);
-            margin-bottom: 3rem;
-            display: flex;
-            align-items: center; gap: 10px;
+            font-weight: 800; font-size: 1.2rem;
+            color: var(--accent); margin-bottom: 3rem;
+            display: flex; align-items: center; gap: 10px;
         }
 
         .nav-links { list-style: none; flex: 1; }
@@ -70,23 +67,13 @@
         /* ─── MAIN CONTENT ───────────────────────────── */
         .main-content { flex: 1; padding: 3rem; overflow-y: auto; }
 
-        .back-nav {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: var(--accent);
-            font-weight: 700;
-            margin-bottom: 2rem;
-            transition: 0.3s;
-        }
-        .back-nav:hover { transform: translateX(-5px); }
-
         header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 3rem;
         }
-        header h1 { font-family: 'Syne', sans-serif; font-size: 2rem; margin-bottom: 0.5rem; }
-        .batch-info { color: var(--muted); font-size: 0.95rem; }
+        header h1 { font-family: 'Syne', sans-serif; font-size: 2rem; }
 
         /* ─── TABLE STYLING ──────────────────────────── */
         .table-container {
@@ -114,17 +101,39 @@
 
         tr:hover { background: rgba(255,255,255,0.01); }
 
-        .student-avatar {
-            width: 35px; height: 35px;
-            background: linear-gradient(135deg, var(--accent2), var(--accent));
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 800; color: white; font-size: 0.8rem;
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .tag-batch { background: rgba(59,142,243,0.1); color: var(--accent); }
+        .tag-exam { background: rgba(108,99,255,0.1); color: var(--accent2); }
+
+        .btn-withdraw {
+            color: var(--danger);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid transparent;
+        }
+        .btn-withdraw:hover {
+            background: rgba(255,94,125,0.1);
+            border-color: var(--danger);
         }
 
-        .empty-state { padding: 5rem; text-align: center; color: var(--muted); }
+        .empty-state {
+            padding: 5rem;
+            text-align: center;
+            color: var(--muted);
+        }
 
-        /* ─── ULTRA PRO MAX RESPONSIVENESS (BATCH STUDENTS) ─── */
+        /* ─── ULTRA PRO MAX RESPONSIVENESS (EXAM ASSIGNMENTS) ─── */
 
         @media (max-width: 1024px) {
             body { flex-direction: column; }
@@ -143,90 +152,80 @@
         }
 
         @media (max-width: 768px) {
-            header { text-align: center; }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+
             header h1 { font-size: 1.8rem; }
 
-            .batch-info {
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-            }
-            .batch-info span[style*="margin"] { display: none; } /* Hide the separator pipe */
-
-            .back-nav {
-                justify-content: center;
-                margin-bottom: 1.5rem;
-            }
-
-            /* Transform Table for Mobile */
-            .table-container { border: none; background: transparent; box-shadow: none; }
+            /* ─── TRANSFORM TABLE TO CARDS ─── */
+            .table-container { background: transparent; border: none; box-shadow: none; }
 
             table, thead, tbody, th, td, tr { display: block; width: 100%; }
-            thead { display: none; }
+
+            thead { display: none; } /* Hide headers on mobile */
 
             tr {
                 background: var(--surface);
                 border: 1px solid var(--border);
-                border-radius: 16px;
-                margin-bottom: 1rem;
-                padding: 1.2rem;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
+                border-radius: 20px;
+                margin-bottom: 1.5rem;
+                padding: 1.5rem;
+                transition: 0.3s;
             }
 
             td {
-                padding: 0 !important;
-                border: none !important;
-                width: auto !important;
+                border: none;
+                padding: 0.6rem 0;
+                text-align: left !important; /* Reset centering for mobile cards */
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
             }
 
-            /* Hide the index number (#) on mobile to save space */
-            td:first-child { display: none; }
+            /* Adding small helper labels for the tags */
+            td:nth-of-type(1)::before { content: "Assigned To:"; color: var(--muted); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; }
+            td:nth-of-type(2)::before { content: "Examination:"; color: var(--muted); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; }
+            td:nth-of-type(3)::before { content: "Assigned On:"; color: var(--muted); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; }
 
+            .tag { font-size: 0.85rem; padding: 6px 14px; width: fit-content; }
+
+            /* Action styling for mobile */
             td:last-child {
-                margin-left: auto;
+                margin-top: 1rem;
+                padding-top: 1rem !important;
+                border-top: 1px solid var(--border) !important;
             }
 
-            .student-avatar {
-                width: 30px;
-                height: 30px;
-                font-size: 0.7rem;
+            .btn-withdraw {
+                display: block;
+                text-align: center;
+                padding: 0.8rem;
+                width: 100%;
+                background: rgba(255, 94, 125, 0.05);
+                border: 1px solid rgba(255, 94, 125, 0.2);
             }
         }
 
         @media (max-width: 480px) {
-            .main-content { padding: 1.5rem 1rem; }
-
             header h1 { font-size: 1.5rem; }
 
-            tr {
-                padding: 1rem;
-            }
+            .main-content { padding: 1.5rem 1rem; }
 
-            span[style*="font-weight: 600"] {
+            .btn-withdraw {
                 font-size: 0.9rem;
-                max-width: 150px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
             }
-
-            .empty-state { padding: 3rem 1rem; }
         }
 
-        /* ─── TOUCH TARGETS ─── */
+        /* ─── TOUCH OPTIMIZATION ─── */
         @media (pointer: coarse) {
-            tr {
-                min-height: 70px;
-            }
-
-            /* Make the "Remove" link feel like a button */
-            td:last-child a {
-                background: rgba(255, 94, 125, 0.1);
-                padding: 8px 16px;
-                border-radius: 8px;
-                border: 1px solid rgba(255, 94, 125, 0.2);
+            .btn-withdraw {
+                min-height: 48px; /* High-end mobile touch target */
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
 
@@ -295,59 +294,60 @@
             <li><a href="/manage-questions">Question Bank</a></li>
             <li><a href="/exam/new">Create Exam</a></li>
             <li><a href="/my-exams">My Exams</a></li>
-            <li><a href="/batch" class="active">Batches</a></li>
-             <li><a href="/assignments" >Exam Assignments</a></li>
+            <li><a href="/batch">Batches</a></li>
+            <li><a href="#" class="active">Exam Assignments</a></li>
             <li><a href="/view-results">Exam Results</a></li>
         </ul>
         <a href="LogoutServlet" style="color:var(--danger); text-decoration:none; font-weight:700; margin-top:auto;">Sign Out →</a>
     </aside>
 
     <main class="main-content">
-        <a href="/batch" class="back-nav">← Back to Batches</a>
-
         <header>
-            <h1>${batch.batchName}</h1>
-            <div class="batch-info">
-                <span>Code: <strong>${batch.batchCode}</strong></span>
-                <span style="margin: 0 10px;">|</span>
-                <span>${students.size()} Enrolled Students</span>
+            <div>
+                <h1>Exam Assignments</h1>
+                <p style="color:var(--muted);">Track and manage exams released to your batches.</p>
             </div>
+            <a href="/batch" class="btn-withdraw" style="color: var(--accent); border-color: var(--accent);">+ New Assignment</a>
         </header>
 
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 50px;">#</th>
-                        <th>Student Username</th>
-                        <th style="text-align: center;">Actions</th>
+                        <th>Batch Name</th>
+                        <th>Exam Title</th>
+                        <th>Assigned Date</th>
+                        <th style="text-align: center;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="student" items="${students}" varStatus="status">
+                    <c:forEach var="item" items="${assignments}">
                         <tr>
-                            <td>${status.count}</td>
                             <td>
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <div class="student-avatar">
-                                        ${student.username.substring(0,1).toUpperCase()}
-                                    </div>
-                                    <span style="font-weight: 600;">${student.username}</span>
-                                </div>
+                                <span class="tag tag-batch">${item.batchName}</span>
+                            </td>
+                            <td>
+                                <span class="tag tag-exam">${item.examTitle}</span>
+                            </td>
+                            <td style="color: var(--muted); font-size: 0.85rem;">
+                                ${item.assignedAt}
                             </td>
                             <td style="text-align: center;">
-                                <a href="/batch/remove-student?batchId=${batch.batchId}&studentId=${student.id}"
-                                   style="color: var(--danger); text-decoration: none; font-size: 0.8rem; font-weight: 700;"
-                                   onclick="return confirm('Remove ${student.username} from this batch?')">Remove</a>
+                                <a href="/exam/withdraw?id=${item.assignmentId}"
+                                   class="btn-withdraw"
+                                   onclick="return confirm('Withdraw this exam? Students in ${item.batchName} will no longer be able to see or take this exam.')">
+                                    Withdraw ✕
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>
 
-                    <c:if test="${empty students}">
+                    <c:if test="${empty assignments}">
                         <tr>
-                            <td colspan="5" class="empty-state">
-                                No students have joined this batch yet.<br>
-                                <span style="font-size: 0.8rem; color: var(--accent2);">Share code "${batch.batchCode}" to invite them!</span>
+                            <td colspan="4" class="empty-state">
+                                <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
+                                No active assignments found.<br>
+                                <a href="/batch" style="color: var(--accent); text-decoration: none; font-size: 0.85rem;">Assign an exam to a batch now →</a>
                             </td>
                         </tr>
                     </c:if>

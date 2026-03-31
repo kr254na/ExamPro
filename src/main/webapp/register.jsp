@@ -122,6 +122,110 @@
 
         .footer-links { margin-top: 1.5rem; font-size: 0.85rem; color: var(--muted); }
         .footer-links a { color: var(--accent2); text-decoration: none; font-weight: 500; }
+
+        /* ─── ULTRA PRO MAX RESPONSIVENESS (REGISTER PAGE) ─── */
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+                overflow-y: auto; /* Enable scrolling for longer forms */
+                align-items: flex-start; /* Prevent clipping at the top */
+                padding-top: 8vh;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .register-card {
+                padding: 2rem 1.5rem;
+                max-width: 100%;
+                border-radius: 24px;
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 4vh;
+            }
+
+            .register-card {
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                padding: 1rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+                margin-bottom: 0.8rem;
+            }
+
+            p.subtitle {
+                font-size: 0.85rem;
+                margin-bottom: 2rem;
+            }
+
+            .input-group {
+                margin-bottom: 1.2rem;
+            }
+
+            input, select {
+                padding: 1rem;
+                font-size: 1rem; /* Crucial: 16px+ prevents iOS auto-zoom */
+            }
+
+            /* Custom dropdown arrow placement for mobile */
+            select {
+                background-position: calc(100% - 1.2rem) center;
+            }
+
+            .btn-register {
+                padding: 1.1rem;
+                font-size: 1rem;
+                margin-top: 1rem;
+            }
+
+            /* Adjust ambient glow for mobile */
+            body::before {
+                width: 300px;
+                height: 300px;
+                bottom: -50px;
+                right: -50px;
+            }
+        }
+
+        /* ─── UI FIX FOR SELECT OPTIONS (DARK THEME) ─── */
+        select option {
+            background-color: #0e1420; /* Matches --surface */
+            color: var(--text);
+        }
+
+        /* ─── LANDSCAPE / KEYBOARD FIX ─── */
+        @media (max-height: 600px) {
+            body {
+                align-items: flex-start;
+                padding-top: 20px;
+            }
+            .register-card {
+                margin-bottom: 30px;
+            }
+        }
+
+        /* ─── TOUCH FEEDBACK ─── */
+        @media (pointer: coarse) {
+            .btn-register:active {
+                transform: scale(0.98);
+                filter: brightness(1.1);
+            }
+
+            input, select {
+                font-size: 16px; /* Enforces no-zoom on mobile safari/chrome */
+            }
+        }
     </style>
 </head>
 <body>

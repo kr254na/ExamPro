@@ -157,6 +157,152 @@
         .btn-delete:hover { border-color: var(--danger); color: var(--danger); background: rgba(255,94,125,0.05); }
 
         .empty-state { padding: 5rem; text-align: center; color: var(--muted); }
+
+        /* ─── ULTRA PRO MAX RESPONSIVENESS (MY EXAMS) ─── */
+
+        @media (max-width: 1024px) {
+            body { flex-direction: column; }
+
+            .sidebar {
+                width: 100%; height: auto; padding: 1rem 1.5rem;
+                flex-direction: row; align-items: center; justify-content: space-between;
+                position: sticky; top: 0; z-index: 100;
+                background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(10px);
+                border-right: none; border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links { display: none; }
+
+            .main-content { padding: 2rem 1.2rem; }
+        }
+
+        @media (max-width: 950px) {
+            /* ─── TABLE TO CARD TRANSFORMATION ─── */
+            .table-container { border: none; background: transparent; box-shadow: none; }
+
+            thead { display: none; } /* Hide headers */
+
+            tr {
+                display: block;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 20px;
+                margin-bottom: 1.5rem;
+                padding: 1.5rem;
+                height: auto !important;
+                position: relative;
+            }
+
+            td {
+                display: block;
+                width: 100% !important;
+                padding: 0.5rem 0 !important;
+                border: none !important;
+                height: auto !important;
+                text-align: left !important;
+            }
+
+            .exam-title { font-size: 1.2rem; }
+
+            /* Meta items for mobile */
+            td:nth-of-type(3)::before { content: "Questions: "; color: var(--muted); font-size: 0.8rem; }
+            td:nth-of-type(4)::before { content: "Duration: "; color: var(--muted); font-size: 0.8rem; }
+
+            /* Actions row on mobile */
+            td.actions-cell {
+                margin-top: 1rem;
+                padding-top: 1.2rem !important;
+                border-top: 1px solid var(--border) !important;
+                width: 100% !important;
+            }
+
+            .actions-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                width: 100%;
+                gap: 8px;
+            }
+
+            .btn-icon {
+                width: 100%;
+                padding: 0.8rem 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            header h1 { font-size: 1.5rem; }
+            .btn-add { width: 100%; text-align: center; }
+
+            .actions-container {
+                grid-template-columns: 1fr; /* Stack buttons on very small phones */
+            }
+
+            .badge { font-size: 0.65rem; }
+        }
+
+        /* ─── TOUCH POLISH ─── */
+        @media (pointer: coarse) {
+            .btn-icon {
+                min-height: 44px; /* Optimal touch target */
+            }
+        }
+
+        /* --- Global Styles --- */
+        .menu-toggle {
+            display: none; /* Hide on Desktop */
+        }
+
+        .mobile-only {
+            display: none; /* Hide on Desktop */
+        }
+
+        /* --- Responsive Styles (Inside @media max-width: 1024px) --- */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: block !important; /* Force show on mobile */
+                background: rgba(255,255,255,0.05);
+                border: 1px solid var(--border);
+                color: var(--accent);
+                font-size: 1.5rem;
+                padding: 0.5rem 0.8rem;
+                border-radius: 8px;
+                cursor: pointer;
+                z-index: 101;
+            }
+
+            .desktop-only-logout {
+                display: none !important; /* Hide the bottom logout on mobile */
+            }
+
+            .mobile-only {
+                display: block; /* Show logout inside the menu */
+                border-top: 1px solid var(--border);
+                margin-top: 1rem;
+            }
+
+            .nav-links {
+                display: none; /* Hidden by default */
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--panel);
+                flex-direction: column;
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border);
+                z-index: 100;
+            }
+
+            .nav-links.show {
+                display: flex !important; /* Show when toggled */
+            }
+        }
     </style>
 </head>
 <body>
@@ -166,14 +312,15 @@
             <div style="width:10px; height:10px; background:var(--accent); border-radius:50%; box-shadow:0 0 10px var(--accent);"></div>
             ExamPro Teacher
         </div>
-        <ul class="nav-links">
+        <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <ul class="nav-links" id="mobileMenu">
             <li><a href="/teacher-dashboard">Dashboard</a></li>
             <li><a href="/manage-questions">Question Bank</a></li>
             <li><a href="/exam/new">Create Exam</a></li>
             <li><a href="#" class="active">My Exams</a></li>
             <li><a href="/batch">Batches</a></li>
-            <li><a href="/view-results.jsp">Exam Results</a></li>
-            <li><a href="/manage-students.jsp">Students</a></li>
+             <li><a href="/assignments" >Exam Assignments</a></li>
+            <li><a href="/view-results">Exam Results</a></li>
         </ul>
         <a href="LogoutServlet" style="color:var(--danger); text-decoration:none; font-weight:700; margin-top:auto;">Sign Out →</a>
     </aside>
@@ -229,6 +376,11 @@
             </table>
         </div>
     </main>
-
+<script>
+function toggleMobileMenu() {
+            const menu = document.getElementById("mobileMenu");
+            menu.classList.toggle("show");
+        }
+</script>
 </body>
 </html>

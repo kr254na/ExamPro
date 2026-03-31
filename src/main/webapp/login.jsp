@@ -121,6 +121,101 @@
 
         .footer-links { margin-top: 1.5rem; font-size: 0.85rem; color: var(--muted); }
         .footer-links a { color: var(--accent); text-decoration: none; font-weight: 500; }
+
+        /* ─── ULTRA PRO MAX RESPONSIVENESS (LOGIN PAGE) ─── */
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+                /* Allow scroll if the keyboard pushes content up */
+                overflow-y: auto;
+                align-items: flex-start;
+                padding-top: 10vh;
+            }
+
+            .login-card {
+                padding: 2rem 1.5rem;
+                max-width: 100%;
+                border-radius: 24px;
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 5vh;
+            }
+
+            .login-card {
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                padding: 1rem;
+            }
+
+            h2 {
+                font-size: 1.8rem; /* Slightly larger for emphasis on small screens */
+                margin-bottom: 0.8rem;
+            }
+
+            p.subtitle {
+                font-size: 0.85rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .input-group {
+                margin-bottom: 1.5rem;
+            }
+
+            input {
+                padding: 1rem; /* Better tap target */
+                font-size: 1rem; /* Prevents iOS auto-zoom */
+            }
+
+            .btn-login {
+                padding: 1.1rem;
+                font-size: 1rem;
+                margin-top: 1.5rem;
+            }
+
+            /* Ambient glow adjustment for mobile */
+            body::before {
+                width: 300px;
+                height: 300px;
+                top: -50px;
+                left: -50px;
+            }
+        }
+
+        /* ─── LANDSCAPE / KEYBOARD PROTECTION ─── */
+        @media (max-height: 550px) {
+            body {
+                align-items: flex-start;
+                padding-top: 20px;
+                overflow-y: auto;
+            }
+
+            .login-card {
+                margin-bottom: 40px;
+            }
+        }
+
+        /* ─── TOUCH FEEDBACK ─── */
+        @media (pointer: coarse) {
+            .btn-login:active {
+                transform: scale(0.98);
+                filter: brightness(1.2);
+                transition: 0.1s;
+            }
+
+            input {
+                font-size: 16px; /* Strict enforcement to prevent iOS zoom */
+            }
+        }
     </style>
 </head>
 <body>

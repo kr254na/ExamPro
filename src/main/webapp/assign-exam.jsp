@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Batch | ExamPro</title>
+    <title>Assign Exam | ExamPro</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -49,12 +49,9 @@
 
         .logo {
             font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: var(--accent);
-            margin-bottom: 3rem;
-            display: flex;
-            align-items: center; gap: 10px;
+            font-weight: 800; font-size: 1.2rem;
+            color: var(--accent); margin-bottom: 3rem;
+            display: flex; align-items: center; gap: 10px;
         }
 
         .nav-links { list-style: none; flex: 1; }
@@ -70,93 +67,55 @@
         /* ─── MAIN CONTENT ───────────────────────────── */
         .main-content { flex: 1; padding: 3rem; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-        .form-container {
+        .assignment-card {
             width: 100%;
             max-width: 550px;
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 3rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
         }
 
         header { text-align: center; margin-bottom: 2.5rem; }
-        header h1 { font-family: 'Syne', sans-serif; font-size: 2rem; margin-bottom: 0.5rem; }
+        header h1 { font-family: 'Syne', sans-serif; font-size: 2.2rem; margin-bottom: 0.5rem; }
         header p { color: var(--muted); font-size: 0.95rem; }
 
         .form-group { margin-bottom: 2rem; }
         label {
-            display: block;
-            font-size: 0.75rem;
-            color: var(--muted);
-            margin-bottom: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
+            display: block; font-size: 0.7rem; color: var(--accent);
+            margin-bottom: 0.8rem; text-transform: uppercase;
+            letter-spacing: 2px; font-weight: 700;
         }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 1.2rem;
+        select {
+            width: 100%; padding: 1.2rem;
             background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            color: var(--text);
-            font-family: inherit;
-            font-size: 1rem;
-            transition: 0.3s;
+            border: 1px solid var(--border); border-radius: 14px;
+            color: var(--text); font-family: inherit; font-size: 1rem;
+            appearance: none; cursor: pointer; transition: 0.3s;
+            option{
+            color:black;
+            }
         }
-        input:focus { outline: none; border-color: var(--accent); background: rgba(59,142,243,0.05); }
+        select:focus { outline: none; border-color: var(--accent); background: rgba(59,142,243,0.05); }
 
-        /* ─── CODE GENERATOR BOX ─────────────────────── */
-        .code-preview-wrapper {
-            background: rgba(108,99,255,0.05);
-            border: 1px dashed var(--accent2);
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
-            margin-bottom: 2.5rem;
-            position: relative;
-        }
-        .code-label { font-size: 0.65rem; color: var(--accent2); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
-        .generated-code {
-            font-family: 'Syne', sans-serif;
-            font-size: 2.5rem;
-            color: var(--text);
-            letter-spacing: 8px;
-            text-shadow: 0 0 20px rgba(108,99,255,0.3);
-        }
-
-        .btn-launch {
-            width: 100%;
-            padding: 1.2rem;
+        .btn-release {
+            width: 100%; padding: 1.2rem;
             background: linear-gradient(135deg, var(--accent), var(--accent2));
-            border: none;
-            border-radius: 14px;
-            color: white;
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 1rem;
+            border: none; border-radius: 14px; color: white;
+            font-family: 'Syne', sans-serif; font-weight: 800;
+            cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase; letter-spacing: 1px; font-size: 1rem;
         }
-        .btn-launch:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(108,99,255,0.4); }
+        .btn-release:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(108,99,255,0.4); }
 
-        .back-link {
-            margin-top: 1.5rem;
-            display: inline-block;
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: 0.3s;
+        .hint {
+            margin-top: 1.5rem; text-align: center;
+            font-size: 0.8rem; color: var(--muted);
         }
-        .back-link:hover { color: var(--text); }
 
-        /* ─── ULTRA PRO MAX RESPONSIVENESS (CREATE BATCH) ─── */
+        /* ─── ULTRA PRO MAX RESPONSIVENESS (ASSIGN EXAM) ─── */
 
         @media (max-width: 1024px) {
             body {
@@ -184,42 +143,53 @@
             }
 
             .main-content {
-                padding: 2rem 1.2rem;
-                min-height: calc(100vh - 80px);
+                padding: 2rem 1rem;
+                min-height: calc(100vh - 70px); /* Adjust for sticky header */
             }
         }
 
         @media (max-width: 768px) {
-            .form-container {
+            .assignment-card {
                 padding: 2rem 1.5rem;
                 border-radius: 20px;
+                box-shadow: 0 15px 30px rgba(0,0,0,0.3);
             }
 
             header h1 {
                 font-size: 1.8rem;
             }
 
-            /* Scaling the generated code for mobile */
-            .generated-code {
-                font-size: 2rem;
-                letter-spacing: 4px; /* Reduced spacing to prevent overflow */
+            header p {
+                font-size: 0.85rem;
             }
 
-            .code-preview-wrapper {
-                padding: 1.5rem 1rem;
+            /* Professional Select Styling for Mobile */
+            select {
+                padding: 1rem;
+                font-size: 0.9rem;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%233b8ef3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 1rem center;
+                background-size: 1rem;
             }
 
-            input[type="text"] {
+            .btn-release {
                 padding: 1rem;
                 font-size: 0.9rem;
             }
         }
 
+        /* ─── UI FIX FOR SELECT OPTIONS (DARK THEME PRESERVATION) ─── */
+        select option {
+            background-color: #0b1120; /* var(--panel) hex */
+            color: var(--text);
+        }
+
         @media (max-width: 480px) {
-            .form-container {
-                padding: 1rem;
-                background: transparent;
+            .assignment-card {
+                padding: 1.5rem 1rem;
                 border: none;
+                background: transparent;
                 box-shadow: none;
             }
 
@@ -227,30 +197,8 @@
                 font-size: 1.6rem;
             }
 
-            .generated-code {
-                font-size: 1.8rem;
-                letter-spacing: 3px;
-            }
-
-            .code-preview-wrapper {
-                border-style: solid; /* Dashed can look messy on very small screens */
-                background: rgba(108, 99, 255, 0.08);
-            }
-
-            .btn-launch {
-                padding: 1rem;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* ─── TOUCH OPTIMIZATION ─── */
-        @media (pointer: coarse) {
-            .btn-launch:hover {
-                transform: none; /* Prevent sticky hover states on touch devices */
-            }
-
-            input[type="text"] {
-                font-size: 16px; /* Prevents iOS from zooming in on focus */
+            .hint {
+                font-size: 0.75rem;
             }
         }
 
@@ -311,7 +259,7 @@
     <aside class="sidebar">
         <div class="logo">
             <div style="width:10px; height:10px; background:var(--accent); border-radius:50%; box-shadow:0 0 10px var(--accent);"></div>
-            ExamPro Teacher
+            ExamPro Admin
         </div>
         <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
         <ul class="nav-links" id="mobileMenu">
@@ -323,55 +271,43 @@
              <li><a href="/assignments" >Exam Assignments</a></li>
             <li><a href="/view-results">Exam Results</a></li>
         </ul>
-        <a href="/LogoutServlet" style="color:var(--danger); text-decoration:none; font-weight:700; margin-top:auto;">Sign Out →</a>
+        <a href="LogoutServlet" style="color:var(--danger); text-decoration:none; font-weight:700; margin-top:auto;">Sign Out →</a>
     </aside>
 
     <main class="main-content">
-        <div class="form-container">
+        <div class="assignment-card">
             <header>
-                <h1>New Classroom</h1>
-                <p>Set a name and generate a secure join code for your students.</p>
+                <h1>Release Exam</h1>
+                <p>Link a specific assessment to a virtual classroom.</p>
             </header>
 
-            <form action="/batch/new" method="post">
+            <form action="/exam/assign" method="post">
                 <div class="form-group">
-                    <label>Batch Name</label>
-                    <input type="text" name="batchName" placeholder="e.g., BCA Final Year - Section A" required autofocus>
+                <input type="hidden" name="batchId" value="${selectedBatchId}">
+                    <label>Select Examination</label>
+                    <select name="examId" required>
+                        <option value="" disabled selected>Choose an exam...</option>
+                        <c:forEach var="exam" items="${myExams}">
+                            <option value="${exam.examId}">${exam.examTitle} - ${exam.subjectName} (${exam.questionCount} Questions)</option>
+                        </c:forEach>
+                    </select>
                 </div>
 
-                <div class="code-preview-wrapper">
-                    <span class="code-label">Unique Invite Code</span>
-                    <div class="generated-code" id="codeDisplay">------</div>
-                    <input type="hidden" name="batchCode" id="hiddenBatchCode">
-                </div>
 
-                <button type="submit" class="btn-launch">Launch Batch</button>
+
+                <button type="submit" class="btn-release">Assign to Batch</button>
             </form>
 
-            <div style="text-align: center;">
-                <a href="/batch" class="back-link">← Cancel and Go Back</a>
+            <div class="hint">
+                Students in the selected batch will receive a notification instantly.
             </div>
         </div>
     </main>
-
     <script>
-
-        function generateSecureCode() {
-            const charset = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-            let code = "";
-            for (let i = 0; i < 6; i++) {
-                code += charset.charAt(Math.floor(Math.random() * charset.length));
-            }
-            document.getElementById('codeDisplay').innerText = code;
-            document.getElementById('hiddenBatchCode').value = code;
-        }
-
-        // Generate the code immediately when the page loads
-        window.onload = generateSecureCode;
-        function toggleMobileMenu() {
-                    const menu = document.getElementById("mobileMenu");
-                    menu.classList.toggle("show");
-                }
+    function toggleMobileMenu() {
+        const menu = document.getElementById("mobileMenu");
+        menu.classList.toggle("show");
+    }
     </script>
 </body>
 </html>

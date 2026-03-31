@@ -2,6 +2,7 @@ package controller;
 
 import dao.UserDao;
 import model.User;
+import util.PasswordUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

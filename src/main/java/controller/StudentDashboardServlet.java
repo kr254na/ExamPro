@@ -35,13 +35,19 @@ public class StudentDashboardServlet extends HttpServlet {
 
         int joinedCount = joinedBatches.size();
 
-        int pendingExams = 0;
-        int completedExams = 0;
-
         request.setAttribute("joinedBatches", joinedBatches);
         request.setAttribute("joinedBatchesCount", joinedCount);
-        request.setAttribute("pendingExamsCount", pendingExams);
-        request.setAttribute("completedExamsCount", completedExams);
+
+        int completedCount = examDao.getCompletedExamsCount(studentId);
+        int pendingCount = examDao.getPendingExamsCount(studentId);
+
+        request.setAttribute("completedExamsCount", completedCount);
+        request.setAttribute("pendingExamsCount", pendingCount);
+
+        for (Batch batch : joinedBatches) {
+            int count = examDao.getPendingExamsCountByBatch(studentId, batch.getBatchId());
+            batch.setPendingCount(count);
+        }
 
         request.getRequestDispatcher("/student-dashboard.jsp").forward(request, response);
     }

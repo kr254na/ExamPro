@@ -147,6 +147,166 @@
 
         .card p { color: var(--muted); line-height: 1.6; font-size: 0.95rem; }
 
+        /* ─── ULTRA PRO MAX RESPONSIVENESS ────────────────── */
+
+        @media (max-width: 1024px) {
+            body {
+                flex-direction: column; /* Stack sidebar on top of main content */
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 1.5rem;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .logo {
+                margin-bottom: 0;
+            }
+
+            .nav-links {
+                display: none; /* Hide standard list, we'll use a scrollable row or hamburger */
+            }
+
+            /* Professional Horizontal Scroll for Mobile Nav */
+            .sidebar::after {
+                content: 'Scroll for more →';
+                position: absolute;
+                bottom: 5px;
+                right: 1.5rem;
+                font-size: 0.6rem;
+                color: var(--muted);
+                opacity: 0.5;
+            }
+
+            /* If you want to show nav links as a scrollable row on mobile */
+            .sidebar {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .sidebar a[href="LogoutServlet"] {
+                margin-top: 0;
+                margin-left: auto;
+            }
+
+            .main-content {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            header h1 {
+                font-size: 1.6rem;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr; /* Single column stats */
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.2rem;
+            }
+
+            .stat-card h2 {
+                font-size: 1.5rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr; /* Stack action cards */
+                gap: 1.2rem;
+            }
+
+            .card {
+                padding: 1.8rem 1.5rem;
+            }
+
+            /* Premium Touch: Adjust floating sidebar for mobile */
+            .sidebar {
+                padding: 1rem 1.5rem;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                backdrop-filter: blur(15px);
+                background: rgba(11, 17, 32, 0.9);
+            }
+        }
+
+        /* ─── EXTRA SMOOTHING FOR SMALL PHONES ─────────── */
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+        }
+
+        /* --- Global Styles --- */
+        .menu-toggle {
+            display: none; /* Hide on Desktop */
+        }
+
+        .mobile-only {
+            display: none; /* Hide on Desktop */
+        }
+
+        /* --- Responsive Styles (Inside @media max-width: 1024px) --- */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: block !important; /* Force show on mobile */
+                background: rgba(255,255,255,0.05);
+                border: 1px solid var(--border);
+                color: var(--accent);
+                font-size: 1.5rem;
+                padding: 0.5rem 0.8rem;
+                border-radius: 8px;
+                cursor: pointer;
+                z-index: 101;
+            }
+
+            .desktop-only-logout {
+                display: none !important; /* Hide the bottom logout on mobile */
+            }
+
+            .mobile-only {
+                display: block; /* Show logout inside the menu */
+                border-top: 1px solid var(--border);
+                margin-top: 1rem;
+            }
+
+            .nav-links {
+                display: none; /* Hidden by default */
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--panel);
+                flex-direction: column;
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border);
+                z-index: 100;
+            }
+
+            .nav-links.show {
+                display: flex !important; /* Show when toggled */
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -156,14 +316,17 @@
             <div style="width:10px; height:10px; background:var(--accent); border-radius:50%; box-shadow:0 0 10px var(--accent);"></div>
             ExamPro Teacher
         </div>
-        <ul class="nav-links">
+
+        <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+
+        <ul class="nav-links" id="mobileMenu">
             <li><a href="#" class="active">Dashboard</a></li>
             <li><a href="/manage-questions">Question Bank</a></li>
              <li><a href="/exam/new">Create Exam</a></li>
              <li><a href="/my-exams">My Exams</a></li>
              <li><a href="/batch">Batches</a></li>
-            <li><a href="view-results.jsp">Exam Results</a></li>
-            <li><a href="manage-students.jsp">Students</a></li>
+              <li><a href="/assignments" >Exam Assignments</a></li>
+            <li><a href="/view-results">Exam Results</a></li>
         </ul>
         <a href="LogoutServlet" style="color:var(--danger); text-decoration:none; font-weight:700; margin-top:auto;">Sign Out →</a>
     </aside>
@@ -211,6 +374,11 @@
             </div>
         </section>
     </main>
-
+    <script>
+    function toggleMobileMenu() {
+        const menu = document.getElementById("mobileMenu");
+        menu.classList.toggle("show");
+    }
+    </script>
 </body>
 </html>

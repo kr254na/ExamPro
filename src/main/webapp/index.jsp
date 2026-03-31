@@ -129,6 +129,104 @@
         .logout-link:hover {
             color: var(--danger);
         }
+
+        /* ─── ULTRA PRO MAX RESPONSIVENESS (LANDING PAGE) ─── */
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+                overflow-y: auto; /* Allow scrolling on smaller devices */
+            }
+
+            .container {
+                padding: 2.5rem 1.5rem;
+                border-radius: 20px;
+                width: 100%;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .user-welcome {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .btn {
+                padding: 0.9rem 1.2rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 2rem 1.2rem;
+                background: transparent; /* Seamless integration with background glow */
+                border: none;
+                box-shadow: none;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+                line-height: 1.2;
+            }
+
+            .user-welcome {
+                font-size: 0.9rem;
+            }
+
+            .action-cards {
+                margin-top: 1.5rem;
+                grid-template-columns: 1fr; /* Force single column stacking */
+            }
+
+            .btn {
+                width: 100% !important; /* Full width for easier thumb access */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 1.1rem;
+            }
+
+            /* Ambient glow scaling for small screens */
+            body::before {
+                width: 300px;
+                height: 300px;
+                bottom: -50px;
+                right: -50px;
+            }
+        }
+
+        /* ─── LANDSCAPE / SHORT SCREEN PROTECTION ─── */
+        @media (max-height: 500px) {
+            body {
+                align-items: flex-start;
+                padding: 2rem 0;
+            }
+
+            .container {
+                margin: 1rem auto;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* ─── TOUCH FEEDBACK ─── */
+        @media (pointer: coarse) {
+            .btn:active {
+                transform: scale(0.97);
+                transition: 0.1s;
+            }
+
+            .logout-link {
+                padding: 10px; /* Increase hit area for touch */
+            }
+        }
     </style>
 </head>
 <body>

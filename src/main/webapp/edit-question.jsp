@@ -105,6 +105,141 @@
         }
 
         .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(59,142,243,0.3); }
+
+        /* ─── ULTRA PRO MAX RESPONSIVENESS (EDIT QUESTION) ─── */
+
+        @media (max-width: 1024px) {
+            body { flex-direction: column; }
+
+            .sidebar {
+                width: 100%; height: auto; padding: 1rem 1.5rem;
+                flex-direction: row; align-items: center; justify-content: space-between;
+                position: sticky; top: 0; z-index: 100;
+                background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(10px);
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links { display: none; }
+
+            .main-content { padding: 2rem 1rem; }
+        }
+
+        @media (max-width: 768px) {
+            header { text-align: center; margin-bottom: 1.5rem; }
+
+            header h1 { font-size: 1.5rem; }
+
+            /* Collapse the 2-column grids into 1 column for easier editing */
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-container {
+                padding: 1.5rem;
+                border-radius: 20px;
+            }
+
+            textarea {
+                min-height: 120px; /* More space for the question text on mobile */
+            }
+
+            input, textarea, select {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+            }
+
+            .btn-submit {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* UI FIX FOR THE SELECT DROPDOWNS */
+        select option {
+            background-color: var(--panel);
+            color: var(--text);
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 1.2rem;
+                background: transparent;
+                border: none;
+                box-shadow: none;
+            }
+
+            label {
+                font-size: 0.7rem;
+                letter-spacing: 0.5px;
+            }
+
+            header h1 { font-size: 1.4rem; }
+        }
+
+        /* ─── TOUCH TARGET OPTIMIZATION ─── */
+        @media (pointer: coarse) {
+            input, select, textarea {
+                font-size: 16px; /* Prevents auto-zoom on focus in iOS Safari */
+            }
+
+            .btn-submit:active {
+                transform: scale(0.98);
+                transition: 0.1s;
+            }
+        }
+
+        /* --- Global Styles --- */
+        .menu-toggle {
+            display: none; /* Hide on Desktop */
+        }
+
+        .mobile-only {
+            display: none; /* Hide on Desktop */
+        }
+
+        /* --- Responsive Styles (Inside @media max-width: 1024px) --- */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: block !important; /* Force show on mobile */
+                background: rgba(255,255,255,0.05);
+                border: 1px solid var(--border);
+                color: var(--accent);
+                font-size: 1.5rem;
+                padding: 0.5rem 0.8rem;
+                border-radius: 8px;
+                cursor: pointer;
+                z-index: 101;
+            }
+
+            .desktop-only-logout {
+                display: none !important; /* Hide the bottom logout on mobile */
+            }
+
+            .mobile-only {
+                display: block; /* Show logout inside the menu */
+                border-top: 1px solid var(--border);
+                margin-top: 1rem;
+            }
+
+            .nav-links {
+                display: none; /* Hidden by default */
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--panel);
+                flex-direction: column;
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border);
+                z-index: 100;
+            }
+
+            .nav-links.show {
+                display: flex !important; /* Show when toggled */
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -114,14 +249,15 @@
             <div style="width:10px; height:10px; background:var(--accent); border-radius:50%; box-shadow:0 0 10px var(--accent);"></div>
             ExamPro Teacher
         </div>
-        <ul class="nav-links">
+        <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <ul class="nav-links" id="mobileMenu">
             <li><a href="/teacher-dashboard">Dashboard</a></li>
             <li><a href="/manage-questions" class="active">Question Bank</a></li>
              <li><a href="/exam/new">Create Exam</a></li>
              <li><a href="/my-exams">My Exams</a></li>
              <li><a href="/batch">Batches</a></li>
-            <li><a href="view-results.jsp">Exam Results</a></li>
-            <li><a href="manage-students.jsp">Students</a></li>
+              <li><a href="/assignments" >Exam Assignments</a></li>
+            <li><a href="/view-results">Exam Results</a></li>
         </ul>
         <a href="LogoutServlet" style="color:var(--danger); text-decoration:none; font-weight:700; margin-top:auto;">Sign Out →</a>
     </aside>
@@ -186,6 +322,12 @@
             </form>
         </div>
     </main>
+    <script>
+    function toggleMobileMenu() {
+                const menu = document.getElementById("mobileMenu");
+                menu.classList.toggle("show");
+            }
+    </script>
 
 </body>
 </html>

@@ -2,6 +2,7 @@ package dao;
 
 import model.User;
 import util.DbConnection;
+import util.PasswordUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,27 +11,28 @@ import java.sql.SQLException;
 
 public class UserDao {
 
-    public User login(String username, String password) {
-        String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-
+    public User login(String username, String plainPassword) {
+        String sql = "SELECT * FROM users WHERE username = ?";
         try (Connection conn = DbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
-            ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                User user = new User();
-                user.setId(rs.getInt("user_id"));
-                user.setUsername(rs.getString("username"));
-                user.setRole(rs.getString("role"));
-                return user;
+                String storedHash = rs.getString("password");
+
+                // Verify the password
+                if (PasswordUtil.checkPassword(plainPassword, storedHash)) {
+                    User user = new User();
+                    user.setId(rs.getInt("user_id"));
+                    user.setUsername(rs.getString("username"));
+                    user.setRole(rs.getString("role"));
+                    return user;
+                }
             }
-        } catch (SQLException e) {
-            System.err.println("Login Error: " + e.getMessage());
-        }
-        return null;
+        } catch (SQLException e) { e.printStackTrace(); }
+        return null; // Login failed
     }
 
 

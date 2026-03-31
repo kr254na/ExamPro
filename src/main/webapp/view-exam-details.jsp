@@ -144,6 +144,146 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
+        /* ─── ULTRA PRO MAX RESPONSIVENESS (EXAM DETAILS) ─── */
+
+        @media (max-width: 1024px) {
+            body { flex-direction: column; }
+
+            .sidebar {
+                width: 100%; height: auto; padding: 1rem 1.5rem;
+                flex-direction: row; align-items: center; justify-content: space-between;
+                position: sticky; top: 0; z-index: 100;
+                background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(10px);
+                border-right: none; border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links { display: none; }
+
+            .main-content { padding: 2rem 1.2rem; }
+        }
+
+        @media (max-width: 768px) {
+            .details-header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.5rem;
+                gap: 1.5rem;
+                text-align: center;
+                align-items: center;
+            }
+
+            .details-header h1 { font-size: 1.6rem; }
+
+            .btn-back {
+                width: 100%;
+                justify-content: center;
+                padding: 0.8rem;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+            }
+
+            /* Transform the options grid to a single column list */
+            .options-grid {
+                grid-template-columns: 1fr;
+                padding-left: 0;
+                gap: 0.8rem;
+            }
+
+            .q-card {
+                padding: 1.5rem 1.2rem;
+            }
+
+            .q-text { font-size: 1rem; }
+
+            .correct-answer {
+                padding-left: 0;
+                margin-top: 1.2rem;
+                width: 100%;
+                justify-content: center;
+                background: rgba(34, 212, 160, 0.05);
+                padding: 8px;
+                border-radius: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content { padding: 1.2rem 1rem; }
+
+            header h3 { font-size: 1.2rem; text-align: center; }
+
+            .option-item {
+                font-size: 0.85rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .q-num {
+                display: block;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* ─── TOUCH TARGETS ─── */
+        @media (pointer: coarse) {
+            .q-card:active {
+                background: rgba(255, 255, 255, 0.04);
+            }
+
+            .btn-back {
+                min-height: 44px;
+            }
+        }
+
+        /* --- Global Styles --- */
+        .menu-toggle {
+            display: none; /* Hide on Desktop */
+        }
+
+        .mobile-only {
+            display: none; /* Hide on Desktop */
+        }
+
+        /* --- Responsive Styles (Inside @media max-width: 1024px) --- */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: block !important; /* Force show on mobile */
+                background: rgba(255,255,255,0.05);
+                border: 1px solid var(--border);
+                color: var(--accent);
+                font-size: 1.5rem;
+                padding: 0.5rem 0.8rem;
+                border-radius: 8px;
+                cursor: pointer;
+                z-index: 101;
+            }
+
+            .desktop-only-logout {
+                display: none !important; /* Hide the bottom logout on mobile */
+            }
+
+            .mobile-only {
+                display: block; /* Show logout inside the menu */
+                border-top: 1px solid var(--border);
+                margin-top: 1rem;
+            }
+
+            .nav-links {
+                display: none; /* Hidden by default */
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--panel);
+                flex-direction: column;
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border);
+                z-index: 100;
+            }
+
+            .nav-links.show {
+                display: flex !important; /* Show when toggled */
+            }
+        }
     </style>
 </head>
 <body>
@@ -153,14 +293,15 @@
             <div style="width:10px; height:10px; background:var(--accent); border-radius:50%; box-shadow:0 0 10px var(--accent);"></div>
             ExamPro Teacher
         </div>
-        <ul class="nav-links">
+        <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <ul class="nav-links" id="mobileMenu">
             <li><a href="/teacher-dashboard">Dashboard</a></li>
             <li><a href="/manage-questions">Question Bank</a></li>
             <li><a href="/exam/new">Create Exam</a></li>
             <li><a href="/my-exams" class="active">My Exams</a></li>
             <li><a href="/batch">Batches</a></li>
-            <li><a href="/view-results.jsp">Exam Results</a></li>
-            <li><a href="/manage-students.jsp">Students</a></li>
+             <li><a href="/assignments" >Exam Assignments</a></li>
+            <li><a href="/view-results">Exam Results</a></li>
         </ul>
         <a href="LogoutServlet" style="color:var(--danger); text-decoration:none; font-weight:700; margin-top:auto;">Sign Out →</a>
     </aside>
@@ -203,6 +344,11 @@
             </div>
         </c:if>
     </main>
-
+<script>
+function toggleMobileMenu() {
+            const menu = document.getElementById("mobileMenu");
+            menu.classList.toggle("show");
+        }
+</script>
 </body>
 </html>

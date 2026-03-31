@@ -2,6 +2,7 @@ package controller;
 
 import dao.UserDao;
 import model.User;
+import util.PasswordUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +22,7 @@ public class RegisterServlet extends HttpServlet {
 
         User newUser = new User();
         newUser.setUsername(user);
-        newUser.setPassword(pass);
+        newUser.setPassword(PasswordUtil.hashPassword(pass));
         newUser.setRole(role);
 
         UserDao userDao = new UserDao();
