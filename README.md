@@ -29,7 +29,7 @@ Unlike standard administrative tools, ExamPro uses a custom-engineered CSS archi
 |-------------|-----------|
 | Backend     | Java EE (Servlets 4.0) |
 | View Engine | JSP (JavaServer Pages) & JSTL 1.2 |
-| Database    | MySQL 8.0 |
+| Database    | MySQL 8.0 (JDBC) |
 | Server      | Apache Tomcat 9.0+ |
 | Styling     | CSS3 (Variables, Grid, Flexbox, Glassmorphism) |
 | Scripting   | JavaScript (ES6+, DOM) |
