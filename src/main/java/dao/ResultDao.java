@@ -42,11 +42,13 @@ public class ResultDao {
     public List<Map<String, Object>> getStudentResults(int studentId) {
         List<Map<String, Object>> resultList = new ArrayList<>();
 
-        String sql = "SELECT r.*, e.exam_title, e.subject_name, b.batch_name FROM results r " +
+        String sql = "SELECT r.*, e.exam_title, e.subject_name, b.batch_name " +
+                "FROM results r " +
                 "JOIN exams e ON r.exam_id = e.exam_id " +
-                "JOIN batch_exams be ON r.exam_id = be.exam_id " +
-                "JOIN batches b ON be.batch_id = b.batch_id " +
-                "WHERE r.student_id = ? ORDER BY r.submitted_at DESC";
+                "JOIN batch_members sb ON r.student_id = sb.student_id " +
+                "JOIN batches b ON sb.batch_id = b.batch_id " +
+                "WHERE r.student_id = ? " +
+                "ORDER BY r.submitted_at DESC";
 
         try (Connection conn = DbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -70,15 +72,13 @@ public class ResultDao {
     public List<Map<String, Object>> getResultsForTeacher(int teacherId, int filterBatchId, int filterExamId) {
         List<Map<String, Object>> results = new ArrayList<>();
 
-        String sql = "SELECT r.*, u.username as student_name, e.exam_title, " +
-                "e.subject_name, b.batch_name " +
-                "FROM results r " +
-                "JOIN users u ON r.student_id = u.user_id " +
-                "JOIN exams e ON r.exam_id = e.exam_id " +
-                "JOIN batch_exams be ON be.exam_id = e.exam_id " +
-                "JOIN batches  b on b.batch_id = be.batch_id " +
-                "WHERE e.teacher_id = ? ";
-
+        String sql = "SELECT r.*, u.username as student_name, e.exam_title, e.subject_name,b.batch_name " +
+                        "FROM results r " +
+                        "JOIN users u ON r.student_id = u.user_id " +
+                        "JOIN exams e ON r.exam_id = e.exam_id " +
+                        "JOIN batch_members sb ON u.user_id = sb.student_id " +
+                        "JOIN batches b ON sb.batch_id = b.batch_id " +
+                        "WHERE e.teacher_id = ? ";
         if(filterBatchId > 0){
             sql += " AND b.batch_id = ? ";
         }
