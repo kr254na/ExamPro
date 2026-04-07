@@ -1,7 +1,7 @@
 package dao;
 
 import model.User;
-import util.DbConnection;
+import util.ProdDbConnection;
 import util.PasswordUtil;
 
 import java.sql.Connection;
@@ -13,7 +13,7 @@ public class UserDao {
 
     public User login(String username, String plainPassword) {
         String sql = "SELECT * FROM users WHERE username = ?";
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
@@ -39,7 +39,7 @@ public class UserDao {
     public boolean register(User user) {
         String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, user.getUsername());
@@ -56,7 +56,7 @@ public class UserDao {
     public boolean updateUser(User user) {
         String sql = "UPDATE users SET username = ?, password = ?, role = ? WHERE user_id = ?";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, user.getUsername());
@@ -74,7 +74,7 @@ public class UserDao {
     public boolean deleteUser(int userId) {
         String sql = "DELETE FROM users WHERE user_id = ?";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, userId);
@@ -88,7 +88,7 @@ public class UserDao {
 
     public User getUserById(int userId) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, userId);

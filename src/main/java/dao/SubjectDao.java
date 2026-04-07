@@ -1,7 +1,7 @@
 package dao;
 
 import model.Subject;
-import util.DbConnection;
+import util.ProdDbConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +14,7 @@ public class SubjectDao {
     public List<Subject> getAllSubjects(){
         List<Subject> subjects = new ArrayList<>();
         String sql = "Select * from subjects";
-        try(Connection connection = DbConnection.getConnection();
+        try(Connection connection = ProdDbConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)){
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -33,7 +33,7 @@ public class SubjectDao {
     public Subject getSubjectById(int id) {
         Subject subject = null;
 
-        try(Connection connection = DbConnection.getConnection()) {
+        try(Connection connection = ProdDbConnection.getConnection()) {
             String query = "SELECT * FROM subjects WHERE subject_id = ?";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, id);

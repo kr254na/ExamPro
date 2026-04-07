@@ -2,7 +2,8 @@ package dao;
 
 import model.Batch;
 import model.User;
-import util.DbConnection;
+import util.ProdDbConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ public class BatchDao {
 
     public boolean createBatch(Batch batch) {
         String sql = "INSERT INTO batches (batch_name, batch_code, teacher_id) VALUES (?, ?, ?)";
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
 
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, batch.getBatchName());
@@ -30,7 +31,7 @@ public class BatchDao {
         String sql = "SELECT b.*, (SELECT COUNT(*) FROM batch_members bm WHERE bm.batch_id = b.batch_id) as s_count " +
                 "FROM batches b WHERE b.teacher_id = ? ORDER BY b.created_at DESC";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, teacherId);
@@ -56,7 +57,7 @@ public class BatchDao {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM batches WHERE teacher_id = ?";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, teacherId);
@@ -75,7 +76,7 @@ public class BatchDao {
         String findBatchSql = "SELECT batch_id FROM batches WHERE batch_code = ?";
         String joinSql = "INSERT INTO batch_members (batch_id, student_id) VALUES (?, ?)";
 
-        try (Connection conn = DbConnection.getConnection()) {
+        try (Connection conn = ProdDbConnection.getConnection()) {
             int batchId = -1;
             try (PreparedStatement ps1 = conn.prepareStatement(findBatchSql)) {
                 ps1.setString(1, batchCode);
@@ -104,7 +105,7 @@ public class BatchDao {
         String sql = "DELETE FROM batches WHERE batch_id = ?";
         boolean success = false;
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, batchId);
@@ -121,7 +122,7 @@ public class BatchDao {
 
     public boolean updateBatch(int batchId, String newName) {
         String sql = "UPDATE batches SET batch_name = ? WHERE batch_id = ?";
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newName);
             ps.setInt(2, batchId);
@@ -134,7 +135,7 @@ public class BatchDao {
 
     public Batch getBatchById(int batchId) {
         String sql = "SELECT * FROM batches WHERE batch_id = ?";
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, batchId);
             ResultSet rs = ps.executeQuery();
@@ -158,7 +159,7 @@ public class BatchDao {
                 "JOIN batch_members bm ON b.batch_id = bm.batch_id " +
                 "WHERE bm.student_id = ?";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, studentId);
@@ -185,7 +186,7 @@ public class BatchDao {
                 "JOIN batch_members bm ON u.user_id = bm.student_id " +
                 "WHERE bm.batch_id = ?";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, batchId);
@@ -206,7 +207,7 @@ public class BatchDao {
     public boolean removeStudentFromBatch(int batchId, int studentId) {
         String sql = "DELETE FROM batch_members WHERE batch_id = ? AND student_id = ?";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, batchId);

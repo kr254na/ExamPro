@@ -1,6 +1,6 @@
 package dao;
 
-import util.DbConnection;
+import util.ProdDbConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class ResultDao {
                                 int correctAnswers, double percentage) {
         String sql = "INSERT INTO results (student_id, exam_id, total_questions, correct_answers, score_percentage) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, studentId);
@@ -50,7 +50,7 @@ public class ResultDao {
                 "WHERE r.student_id = ? " +
                 "ORDER BY r.submitted_at DESC";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, studentId);
             ResultSet rs = ps.executeQuery();
@@ -88,7 +88,7 @@ public class ResultDao {
 
         sql += "ORDER BY r.submitted_at DESC";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, teacherId);

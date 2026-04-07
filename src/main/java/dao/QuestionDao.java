@@ -1,7 +1,7 @@
 package dao;
 
 import model.Question;
-import util.DbConnection;
+import util.ProdDbConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,8 +14,8 @@ public class QuestionDao {
     public List<Question> getQuestions(int limit){
         List<Question> questions = new ArrayList<>();
         String sql = "Select * from questions order by rand() limit ?";
-        try(Connection connection = DbConnection.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql)){
+        try(Connection connection = ProdDbConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
             ps.setInt(1,limit);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -41,7 +41,7 @@ public class QuestionDao {
     public Question getQuestionById(int id) {
         Question q = null;
         String sql = "SELECT * FROM questions WHERE question_id = ?";
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -67,7 +67,7 @@ public class QuestionDao {
         List<Question> list = new ArrayList<>();
         String sql = "SELECT * FROM questions WHERE created_by = ?";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, teacherId);
@@ -93,7 +93,7 @@ public class QuestionDao {
     public int getQuestionCountByTeacher(int teacherId) {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM questions WHERE created_by = ?";
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, teacherId);
             ResultSet rs = ps.executeQuery();
@@ -111,7 +111,7 @@ public class QuestionDao {
                 "(question_text, option_a, option_b, option_c, option_d, correct_option, created_by, subject_id)" +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, q.getQuestionText());
             ps.setString(2, q.getOptionA());
@@ -134,7 +134,7 @@ public class QuestionDao {
                 "option_c=?, option_d=?, correct_option=?, subject_id=? " +
                 "WHERE question_id=?";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             SubjectDao subjectDao = new SubjectDao();
             ps.setString(1, q.getQuestionText());
@@ -159,7 +159,7 @@ public class QuestionDao {
         String sql = "DELETE FROM questions" +
                 " where question_id=?";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;

@@ -2,7 +2,7 @@ package dao;
 
 import model.Exam;
 import model.ExamAssignment;
-import util.DbConnection;
+import util.ProdDbConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +15,7 @@ public class AssignmentDao {
 
     public boolean assignExamToBatch(int examId, int batchId) {
         String sql = "INSERT INTO batch_exams (exam_id, batch_id) VALUES (?, ?)";
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, examId);
             ps.setInt(2, batchId);
@@ -36,7 +36,7 @@ public class AssignmentDao {
                 "WHERE b.teacher_id = ? " +
                 "ORDER BY be.assigned_at DESC";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, teacherId);
             ResultSet rs = ps.executeQuery();
@@ -63,7 +63,7 @@ public class AssignmentDao {
                 "WHERE be.batch_id = ? " +
                 "ORDER BY be.assigned_at DESC";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, studentId);
@@ -90,7 +90,7 @@ public class AssignmentDao {
 
     public boolean withdrawAssignment(int assignmentId) {
         String sql = "DELETE FROM batch_exams WHERE assignment_id = ?";
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, assignmentId);

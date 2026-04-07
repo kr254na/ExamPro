@@ -3,7 +3,6 @@ package controller;
 import dao.ResultDao;
 import model.Question;
 import model.User;
-import util.DbConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

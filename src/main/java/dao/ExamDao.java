@@ -2,7 +2,7 @@ package dao;
 
 import model.Exam;
 import model.Question;
-import util.DbConnection;
+import util.ProdDbConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class ExamDao {
                 "(exam_id, question_id) VALUES (?, ?)";
 
         try {
-            conn = DbConnection.getConnection();
+            conn = ProdDbConnection.getConnection();
             conn.setAutoCommit(false);
 
             psExam = conn.prepareStatement(examSql, Statement.RETURN_GENERATED_KEYS);
@@ -67,7 +67,7 @@ public class ExamDao {
                 "(SELECT COUNT(*) FROM exam_questions eq WHERE eq.exam_id = e.exam_id) AS q_count " +
                 "FROM exams e WHERE e.teacher_id = ? ORDER BY e.created_at DESC";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, teacherId);
@@ -94,7 +94,7 @@ public class ExamDao {
     public int getTotalExamsCountByTeacher(int teacherId) {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM exams WHERE teacher_id = ?";
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, teacherId);
             ResultSet rs = ps.executeQuery();
@@ -113,7 +113,7 @@ public class ExamDao {
                 "(SELECT COUNT(*) FROM exam_questions eq WHERE eq.exam_id = e.exam_id) AS q_count " +
                 "FROM exams e WHERE e.exam_id = ?";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, examId);
@@ -146,7 +146,7 @@ public class ExamDao {
         String insertNewSql = "INSERT INTO exam_questions (exam_id, question_id) VALUES (?, ?)";
 
         try {
-            conn = DbConnection.getConnection();
+            conn = ProdDbConnection.getConnection();
             conn.setAutoCommit(false);
 
             psUpdateExam = conn.prepareStatement(updateExamSql);
@@ -186,7 +186,7 @@ public class ExamDao {
     public boolean deleteExam(int examId) {
         String sql = "DELETE FROM exams WHERE exam_id = ?";
         boolean success = false;
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, examId);
             int rowsAffected = ps.executeUpdate();
@@ -204,7 +204,7 @@ public class ExamDao {
                 "INNER JOIN exam_questions eq ON q.question_id = eq.question_id " +
                 "WHERE eq.exam_id = ?";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, examId);
@@ -229,7 +229,7 @@ public class ExamDao {
 
     public int getCompletedExamsCount(int studentId) {
         String sql = "SELECT COUNT(*) FROM results WHERE student_id = ?";
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, studentId);
             ResultSet rs = ps.executeQuery();
@@ -244,7 +244,7 @@ public class ExamDao {
                 "JOIN batch_members bs ON be.batch_id = bs.batch_id " +
                 "LEFT JOIN results r ON e.exam_id = r.exam_id AND r.student_id = bs.student_id " +
                 "WHERE bs.student_id = ? AND r.result_id IS NULL";
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, studentId);
             ResultSet rs = ps.executeQuery();
@@ -259,7 +259,7 @@ public class ExamDao {
                 "LEFT JOIN results r ON e.exam_id = r.exam_id AND r.student_id = ? " +
                 "WHERE be.batch_id = ? AND r.result_id IS NULL";
 
-        try (Connection conn = DbConnection.getConnection();
+        try (Connection conn = ProdDbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, studentId);
