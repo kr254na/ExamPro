@@ -1,11 +1,8 @@
 package util;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class ProdDbConnection {
 
@@ -14,26 +11,34 @@ public class ProdDbConnection {
     public static Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
-               /* Properties props = new Properties();
-                InputStream input = ProdDbConnection.class
-                        .getClassLoader()
-                        .getResourceAsStream("db.properties");
-                if (input == null) {
-                    throw new RuntimeException("db.properties file not found!");
+           
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                } catch (ClassNotFoundException e) {
+                    System.err.println("MySQL Driver not found in classpath!");
+                    return null;
                 }
-                props.load(input);
-                connection = DriverManager.getConnection(props.getProperty("db.url"),
-                        props.getProperty("db.username"),
-                        props.getProperty("db.password"));*/
-                connection = DriverManager.getConnection(
-                        System.getenv("DB_URL"),
-                        System.getenv("DB_USER"),
-                        System.getenv("DB_PASSWORD")
-                );
+
+                String url = System.getenv("DB_URL");
+                String user = System.getenv("DB_USER");
+                String pass = System.getenv("DB_PASSWORD");
+
+                if (url != null && url.startsWith("mysql://")) {
+                    url = "jdbc:" + url;
+                }
+
+                if (url == null || user == null || pass == null) {
+                    System.err.println("Database environment variables are missing!");
+                    return null;
+                }
+
+                connection = DriverManager.getConnection(url, user, pass);
                 System.out.println("Connected to Aiven MySQL successfully!");
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Db Connection Failure: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Unexpected Error: " + e.getMessage());
         }
         return connection;
     }
