@@ -14,7 +14,7 @@ public class ProdDbConnection {
     public static Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
-                Properties props = new Properties();
+               /* Properties props = new Properties();
                 InputStream input = ProdDbConnection.class
                         .getClassLoader()
                         .getResourceAsStream("db.properties");
@@ -24,7 +24,12 @@ public class ProdDbConnection {
                 props.load(input);
                 connection = DriverManager.getConnection(props.getProperty("db.url"),
                         props.getProperty("db.username"),
-                        props.getProperty("db.password"));
+                        props.getProperty("db.password"));*/
+                connection = DriverManager.getConnection(
+                        System.getenv("DB_URL"),
+                        System.getenv("DB_USER"),
+                        System.getenv("DB_PASSWORD")
+                );
                 System.out.println("Connected to Aiven MySQL successfully!");
             }
         } catch (Exception e) {
